@@ -21,10 +21,12 @@
     "react": "^18.2.0",
     "react-router-dom": "^6.19.0",
     "swagger-ui-express": "^4.1.4",
+    "web-vitals": "^3.5.0",
     "yamljs": "^0.3.0"
   },
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "dev:server": "nodemon ./server/server.js",
     "populate-db": "node ./server/scripts/populateDatabase.js",
     "server": "node ./server/server.js"
@@ -32,6 +34,7 @@
   "devDependencies": {
     "html-webpack-plugin": "^5.5.3",
     "nodemon": "^2.0.4",
+    "react-scripts": "^5.0.1",
     "webpack-dev-server": "^4.15.1"
   },
   "browserslist": {
