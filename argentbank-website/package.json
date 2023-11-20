@@ -8,6 +8,7 @@
   "license": "",
   "main": "index.js",
   "dependencies": {
+    "app": "^0.1.0",
     "axios": "^1.6.1",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
@@ -16,15 +17,33 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.2.0",
     "mongoose": "^5.9.21",
+    "node": "^21.1.0",
+    "react": "^18.2.0",
+    "react-router-dom": "^6.19.0",
     "swagger-ui-express": "^4.1.4",
     "yamljs": "^0.3.0"
   },
   "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start",
     "dev:server": "nodemon ./server/server.js",
     "populate-db": "node ./server/scripts/populateDatabase.js",
     "server": "node ./server/server.js"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "html-webpack-plugin": "^5.5.3",
+    "nodemon": "^2.0.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

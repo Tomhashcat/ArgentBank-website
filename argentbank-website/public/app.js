@@ -1,7 +1,8 @@
+import React from 'react'
 import "./App.scss";
-import Page from "./pages/Home";
-import { DataProvider } from "./contexts/DataContext";
-function App() {
+import Home from "./pages/Home";
+import { Provider } from 'react-redux'
+
 const { MongoClient } = require('mongodb');
 
 // URL de connexion
@@ -32,22 +33,25 @@ client.connect((err) => {
   // Fermer la connexion lorsque vous avez terminé
   client.close();
 });
-
-return (
-  <div className="App">
-    <Header />
-   
-    <main>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Apropos" element={<Apropos />} />
-      
-        <Route path="/*" element={<ErrorPage />} />
-      </Routes>
-    </main>
-    <Footer />
-  </div>
-);
+function App(){
+  return (
+    <Provider>
+    <Router>
+      <Header />
+      <section className="elementsToDisplay">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/loginPage/signIn" element={<SignIn />} />
+          <Route path="/profilePage/Profile" element={<PrivateRoute />}>
+       
+          </Route>
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </section>
+      <Footer />
+    </Router>
+  </Provider>
+  );
 
 
 
