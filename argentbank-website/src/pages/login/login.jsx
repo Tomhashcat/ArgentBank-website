@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   return (
@@ -20,9 +21,9 @@ function LoginPage() {
             <label htmlFor="remember-me">Remember me</label>
           </div>
 
-          <a href="./user.html" className="sign-in-button">
+          <Link to="/User" className="sign-in-button">
             Sign In
-          </a>
+          </Link>
 
           <button className="sign-in-button">Sign In</button>
         </form>
