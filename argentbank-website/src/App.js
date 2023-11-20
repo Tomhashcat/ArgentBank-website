@@ -6,6 +6,14 @@ import Header from './components/Header/Header';
 import Error from './pages/Error/Error';
 import LoginPage from './pages/login/login';
 import UserPage from './pages/Users/User';
+import "./components/Header/Header.scss";
+
+
+
+
+
+
+
 function App() {
   return (
     <div className="App">

@@ -1,6 +1,6 @@
 
 import React from 'react';
-
+import "./Home.scss"
 /**
  *
  * @returns {React.ReactElement} JSX.Element - the user main page

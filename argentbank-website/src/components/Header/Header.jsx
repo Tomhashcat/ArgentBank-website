@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import "./Header.scss"
 
 
 /**
@@ -13,7 +13,7 @@ function Header() {
     return (
 
     <header className="main-nav">
-        <Link className="main-nav-logo" to="/">
+        <Link className="main-navo-log" to="/">
             <img
                 className="main-nav-logo-image"
                 src="./designs/img/argentBankLogo.png"
