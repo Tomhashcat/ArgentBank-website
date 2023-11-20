@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+
 import React from 'react';
 
 /**
@@ -7,7 +7,7 @@ import React from 'react';
  */
 function Home(){
 	return (
-		<>
+		
 		<main>
 		<div className="hero">
         <section className="hero-content">
@@ -21,7 +21,7 @@ function Home(){
       <section className="features">
         <h2 className="sr-only">Features</h2>
         <div className="feature-item">
-          <img src="./img/icon-chat.png" alt="Chat Icon" class="feature-icon" />
+          <img src="./img/icon-chat.png" alt="Chat Icon" className="feature-icon" />
           <h3 className="feature-item-title">You are our #1 priority</h3>
           <p>
             Need to talk to a representative? You can get in touch through our
@@ -53,7 +53,7 @@ function Home(){
         </div>
       </section>
     </main>
-		</>
+		
 	);
 
 	}
