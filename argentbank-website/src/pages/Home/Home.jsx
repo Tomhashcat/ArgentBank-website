@@ -1,6 +1,9 @@
 
 import React from 'react';
-import "./Home.scss"
+import "./Home.scss";
+import iconChat from "../../assets/img/icon-chat.png";
+import inconMoney from "../../assets/img/icon-money.png";
+import iconSecurity from "../../assets/img/icon-security.png";
 /**
  *
  * @returns {React.ReactElement} JSX.Element - the user main page
@@ -21,7 +24,7 @@ function Home(){
       <section className="features">
         <h2 className="sr-only">Features</h2>
         <div className="feature-item">
-          <img src="./img/icon-chat.png" alt="Chat Icon" className="feature-icon" />
+          <img src={iconChat} alt="Chat Icon" className="feature-icon" />
           <h3 className="feature-item-title">You are our #1 priority</h3>
           <p>
             Need to talk to a representative? You can get in touch through our
@@ -30,7 +33,7 @@ function Home(){
         </div>
         <div className="feature-item">
           <img
-            src="./img/icon-money.png"
+            src={inconMoney}
             alt="Chat Icon"
             className="feature-icon"
           />
@@ -41,7 +44,7 @@ function Home(){
         </div>
         <div className="feature-item">
           <img
-            src="./img/icon-security.png"
+            src={iconSecurity}
             alt="Chat Icon"
             className="feature-icon"
           />
