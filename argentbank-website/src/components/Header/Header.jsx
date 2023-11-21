@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./Header.scss"
-
+import "./Header.scss";
+import logoImg from "../../assets/img/argentBankLogo.png";
 
 /**
  * Component - Header
@@ -16,7 +16,7 @@ function Header() {
         <Link className="main-navo-log" to="/">
             <img
                 className="main-nav-logo-image"
-                src="./designs/img/argentBankLogo.png"
+                src={logoImg}
                 alt="Argent Bank Logo"
             />
             <h1 className="sr-only">Argent Bank</h1>

@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Login.scss";
+
+
 function LoginPage() {
   return (
     <main className="main bg-dark">
@@ -25,7 +27,7 @@ function LoginPage() {
             Sign In
           </Link>
 
-          <button className="sign-in-button">Sign In</button>
+         
         </form>
       </section>
     </main>
