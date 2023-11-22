@@ -1,15 +1,17 @@
 
-import { Link,   useNavigate } from "react-router-dom";
+import {   useNavigate } from "react-router-dom";
 import "./Login.scss";
+import { useAuth } from "../../AuthContext";
 import axios from "axios"; // Assurez-vous d'installer axios : npm install axios
 import "./Login.scss";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -27,9 +29,9 @@ function LoginPage() {
       console.log(response);
        // Vérifier si la réponse contient une propriété 'token'
        if (response.status === 200) {
-        const token = response.data.body.token; // Accéder à la propriété token à partir de body
-        localStorage.setItem("token", token);
-      
+        const  userToken = response.data.body.token; // Accéder à la propriété token à partir de body
+        localStorage.setItem("token", userToken);
+        login(userToken);
         navigate("/User");
       } else {
         console.error("Unexpected response status:", response.status);

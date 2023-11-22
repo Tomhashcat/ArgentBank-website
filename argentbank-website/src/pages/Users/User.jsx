@@ -1,13 +1,39 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./User.scss";
+import { useAuth } from '../../AuthContext';
+
+
 /**
  * 
  * @returns {React.ReactElement}
  */
 
 function UserPage(){
+
+  const { isLoggedIn, getToken } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = getToken();
+    // Vérifier si l'utilisateur est connecté
+    if (!token) {
+     
+      // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+      navigate('/login');
+    }
+  }, [getToken, navigate]);
+
+  // Éviter le rendu du contenu de la page s'il y a une redirection
+  if (!isLoggedIn) {
+   
+    return null;
+  }
+  
     return(
-        <main className="main bg-dark">
+    
+        <main className="main bg-dark"> 
+      
         <div className="header">
           <h1>Welcome back<br />Tony Jarvis!</h1>
           <button className="edit-button">Edit Name</button>
@@ -44,7 +70,9 @@ function UserPage(){
           </div>
         </section>
       </main>
-    );
+     
+      
+    )
 }
 
 export default UserPage
