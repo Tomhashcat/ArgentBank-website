@@ -1,6 +1,7 @@
 import React , { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
+import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/img/argentBankLogo.png";
 import { useAuth } from "../../AuthContext";
 
@@ -11,8 +12,8 @@ import { useAuth } from "../../AuthContext";
  */
 function Header() {
 
-  const { isLoggedIn, logout } = useAuth();
-
+  const { isLoggedIn, logout, user } = useAuth();
+  const userName = user ? user.userName : null;
 
   console.log("Is Logged In:", isLoggedIn);
   
@@ -33,9 +34,15 @@ function Header() {
         </Link>
         <div>
         {isLoggedIn ? (
+          <>
+         <Link className="main-nav-item" to="/User">
+          <i className="fa fa-user-circle"></i>
+          {userName}
+        </Link>
             <Link to="/" onClick={logout} className="main-nav-item">
-              <i className="fa fa-sign-out"></i>Logout
+              <i className="fa fa-sign-out"></i>Sign out
             </Link>
+            </>
           ) : (
             <Link to="/login" className="main-nav-item">
               <i className="fa fa-user-circle"></i>Sign in

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Login.scss";
-import { setToken } from "./authSlice";
+import { setToken, logingSuccess, logingError, logingRemember } from "./authSlice";
 import { useAuth } from "../../AuthContext";
 import axios from "axios"; // Assurez-vous d'installer axios : npm install axios
 import "./Login.scss";
@@ -36,13 +36,13 @@ function LoginPage() {
       console.log(response);
       // Vérifier si la réponse contient une propriété 'token'
       if (response.status === 200) {
-        const userToken = response.data.body.token; // Accéder à la propriété token à partir de body
+        const { token, userName } = response.data.body; // Accéder à la propriété token à partir de body
         if (isRemember) {
-          localStorage.setItem("token", userToken);
+          localStorage.setItem("token", token);
         }
-        dispatch(setToken(userToken));
-        localStorage.setItem("token", userToken);
-        login(userToken);
+        dispatch(setToken(token));
+        localStorage.setItem("token", token);
+        login(token, userName);
         navigate("/User");
       } else {
         console.error("Unexpected response status:", response.status);
