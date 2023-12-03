@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userToken, setUserToken] = useState(null);
 
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {

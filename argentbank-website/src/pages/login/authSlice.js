@@ -7,6 +7,7 @@ const authSlice = createSlice({
 
   initialState: {
      token: localStorage.getItem('token') || null,
+     userName: localStorage.getItem('user name') || null,
     isLoading: false,
     isAuth: false,
     error: '',
@@ -14,6 +15,9 @@ const authSlice = createSlice({
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
+    },
+    setFirstName:(state, action) =>{
+      state.firstName =action.payload;
     },
     clearToken: (state) => {
       state.token = null;
@@ -42,6 +46,7 @@ const authSlice = createSlice({
 export const selectToken = (state) => state.auth.token;
 export const {
   setToken,
+ setFirstName,
   clearToken,
   handleSignIn,
   logingSuccess,

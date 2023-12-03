@@ -1,11 +1,13 @@
 import React , { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/img/argentBankLogo.png";
 import { useAuth } from "../../AuthContext";
-
-
+import axios from "axios";
+import { setUserName } from "../../pages/Users/profileSlice";
+import { useDispatch, useSelector } from "react-redux"; 
 /**
  * Component - Header
  * @returns {React.ReactElement} JSX.Element - header component
@@ -13,10 +15,30 @@ import { useAuth } from "../../AuthContext";
 function Header() {
 
   const { isLoggedIn, logout, user } = useAuth();
-  const userName = user ? user.userName : null;
+  const dispatch = useDispatch();
+  const userName = useSelector((state) => state.profile.userName);
+
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      // Faites une requête pour obtenir le nom d'utilisateur
+      axios.get('/api/user/signup', {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      })
+      .then(response => {  console.log("Response Data:", response.data); 
+        // Mettez à jour le state avec le nom d'utilisateur récupéré
+        dispatch(setUserName(response.data.username));
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération du nom d\'utilisateur:', error);
+      });
+    }
+  }, [isLoggedIn, user]);
 
   console.log("Is Logged In:", isLoggedIn);
-  
+  console.log("User:", user);
+  console.log("User Name:", userName);
   return (
     <>
       <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />

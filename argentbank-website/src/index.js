@@ -7,10 +7,11 @@ import authReducer from "./pages/login/authSlice"; // Adjust the path accordingl
 import { AuthProvider } from './AuthContext';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import profileReducer from './pages/Users/profileSlice'; 
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    profile: profileReducer,
     // Add other reducers if needed
   },
 });
