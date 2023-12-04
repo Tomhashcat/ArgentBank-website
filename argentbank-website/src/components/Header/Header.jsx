@@ -1,13 +1,14 @@
 import React , { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserName } from "../../pages/Users/profileSlice";
+
 import logoImg from "../../assets/img/argentBankLogo.png";
 import { useAuth } from "../../AuthContext";
 import axios from "axios";
-import { setUserName } from "../../pages/Users/profileSlice";
-import { useDispatch, useSelector } from "react-redux"; 
+
+
 /**
  * Component - Header
  * @returns {React.ReactElement} JSX.Element - header component
@@ -16,7 +17,7 @@ function Header() {
 
   const { isLoggedIn, logout, user } = useAuth();
   const dispatch = useDispatch();
-  const userName = useSelector((state) => state.profile.userName);
+  const userName = useSelector((state) => state.userName);
 
   useEffect(() => {
     if (isLoggedIn && user) {
@@ -34,7 +35,7 @@ function Header() {
         console.error('Erreur lors de la récupération du nom d\'utilisateur:', error);
       });
     }
-  }, [isLoggedIn, user]);
+  }, [isLoggedIn, user,dispatch]);
 
   console.log("Is Logged In:", isLoggedIn);
   console.log("User:", user);

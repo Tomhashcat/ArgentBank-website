@@ -7,6 +7,7 @@ import Header from './components/Header/Header';
 import Error from './pages/Error/Error';
 import LoginPage from './pages/login/login';
 import UserPage from './pages/Users/User';
+import EditUserNameForm from './components/form/form';
 import "./components/Header/Header.scss";
 import { AuthProvider } from './AuthContext';
 
@@ -21,6 +22,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/User" element={<UserPage />} />
+              <Route path="/Edit" element={<EditUserNameForm />} />
               <Route path="/*" element={<Error />} />
             </Routes>
           </main>
