@@ -32,7 +32,7 @@ function UserPage() {
     if (isLoggedIn && token) {
       axios.put(
         'http://localhost:3001/api/v1/user/profile',
-        { newUserName },
+        {userName: newUserName },
         {
           headers: {
             Authorization: `Bearer ${token}`,
