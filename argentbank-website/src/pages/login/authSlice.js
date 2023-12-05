@@ -11,6 +11,7 @@ const authSlice = createSlice({
     firstName: localStorage.getItem('first name') || null,
     isLoading: false,
     isAuth: false,
+    isRemember: false,
     error: '',
     isRemember: false,
   },

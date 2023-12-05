@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setFirstName, setLastName, profileError, setUserName, setEmail } from './profileSlice';
 import { useAuth } from '../../AuthContext';
+
 import EditButton from '../../components/button/button';
 import EditUserNameForm from '../../components/form/form';
 import { userDatas } from '../../services/userDatas';
@@ -18,11 +19,9 @@ function UserPage() {
 
   const userName = useSelector((state) => state.profile.userName);
   useEffect(() => {
-    // Vérifier si l'utilisateur est connecté
     const token = getToken();
 
     if (!token) {
-      // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
       navigate('/login');
     } else {
       userDatas(token)
@@ -36,8 +35,14 @@ function UserPage() {
           dispatch(profileError(error.response.data.message));
         });
     }
-  }, [getToken, navigate, dispatch]);
 
+   
+    
+
+
+
+   
+  }, [getToken, navigate, dispatch]);
   const handleSaveUserName = (newUserName) => {
     const token = getToken();
     if (isLoggedIn && token) {
