@@ -6,6 +6,7 @@ const profileSlice = createSlice({
   initialState: {
     // Votre état initial ici
     firstName: '',
+    userName:'',
     lastName: '',
     error: null,
     // ... d'autres propriétés
@@ -14,6 +15,8 @@ const profileSlice = createSlice({
     // Vos reducers ici
     setFirstName: (state, action) => {
       state.firstName = action.payload;
+    }, setUserName: (state, action) => {
+      state.userName = action.payload;
     },
     profileError: (state, action) => {
       state.error = action.payload;
@@ -28,5 +31,5 @@ const profileSlice = createSlice({
   },
 });
 
-export const { setFirstName, setLastName, setError,profileError } = profileSlice.actions;
+export const { setFirstName, setLastName, setError,profileError , setUserName} = profileSlice.actions;
 export default profileSlice.reducer;

@@ -13,7 +13,11 @@ export async function userDatas(token) {
           Authorization: `Bearer ${token}`,
         },
       });
-      resolve(res.data);
+      if (res.data && res.data.body) {
+        resolve(res.data.body);
+      } else {
+        reject(new Error('Invalid response format'));
+      }
     } catch (error) {
       reject(error);
     }

@@ -7,7 +7,7 @@ const authSlice = createSlice({
 
   initialState: {
     token: localStorage.getItem('token') || null,
-    userName: localStorage.getItem('user name') || null,
+    userName: localStorage.getItem('userName') || null,
     firstName: localStorage.getItem('first name') || null,
     isLoading: false,
     isAuth: false,
@@ -21,12 +21,16 @@ const authSlice = createSlice({
     setFirstName: (state, action) => {
       state.firstName = action.payload;
     },
+    setUserName: (state, action) => {
+      state.userName = action.payload;
+    },
     clearToken: (state) => {
       state.token = null;
     },
     handleSignIn: (state, action) => {
       state.token = action.payload;
-    }, logingSuccess: (state) => {
+    }, 
+    logingSuccess: (state) => {
       state.isLoading = false
       state.isAuth = true
       state.error = ''
@@ -50,6 +54,7 @@ export const {
   setToken,
   setFirstName,
   clearToken,
+  setUserName,
   handleSignIn,
   logingSuccess,
   logingError,
