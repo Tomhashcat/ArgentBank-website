@@ -8,6 +8,7 @@ const profileSlice = createSlice({
     firstName: '',
     userName:'',
     lastName: '',
+    email:'',
     error: null,
     // ... d'autres propriétés
   },
@@ -15,7 +16,11 @@ const profileSlice = createSlice({
     // Vos reducers ici
     setFirstName: (state, action) => {
       state.firstName = action.payload;
-    }, setUserName: (state, action) => {
+    }, 
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    }, 
+    setUserName: (state, action) => {
       state.userName = action.payload;
     },
     profileError: (state, action) => {
@@ -31,5 +36,5 @@ const profileSlice = createSlice({
   },
 });
 
-export const { setFirstName, setLastName, setError,profileError , setUserName} = profileSlice.actions;
+export const { setFirstName, setLastName, setError,profileError , setUserName, setEmail} = profileSlice.actions;
 export default profileSlice.reducer;

@@ -14,6 +14,7 @@ export async function userDatas(token) {
         },
       });
       if (res.data && res.data.body) {
+         console.log('User data received:', res); 
         resolve(res.data.body);
       } else {
         reject(new Error('Invalid response format'));

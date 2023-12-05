@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "./User.scss";
 import { useDispatch } from 'react-redux';
-import { setFirstName, setLastName, profileError } from './profileSlice';
+import { setFirstName, setLastName, profileError, setUserName, setEmail } from './profileSlice';
 import { useAuth } from '../../AuthContext';
 import EditButton from '../../components/button/button';
 import EditUserNameForm from '../../components/form/form';
@@ -27,6 +27,8 @@ function UserPage() {
         .then(data => {
           dispatch(setFirstName(data.firstName));
           dispatch(setLastName(data.lastName));
+          dispatch(setEmail(data.email));
+          dispatch(setUserName(data.userName));
         })
         .catch(error => {
           dispatch(profileError(error.response.data.message));

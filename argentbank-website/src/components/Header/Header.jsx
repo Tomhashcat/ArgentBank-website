@@ -2,7 +2,7 @@ import React , { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import { useDispatch, useSelector } from "react-redux";
-
+import { setUserName } from "../../pages/Users/profileSlice";
 
 import logoImg from "../../assets/img/argentBankLogo.png";
 import { useAuth } from "../../AuthContext";
@@ -17,12 +17,12 @@ function Header() {
 
   const { isLoggedIn, logout, user } = useAuth();
   const dispatch = useDispatch();
-  const userName = useSelector((state) => state.userName);
+  const userName = useSelector((state) => state.profile.userName);
 
   useEffect(() => {
     if (isLoggedIn && user) {
       // Faites une requête pour obtenir le nom d'utilisateur
-      axios.get('/api/user/signup', {
+      axios.post('/api/user/signup', {
         headers: {
           Authorization: `Bearer ${user.token}`
         }
@@ -38,8 +38,8 @@ function Header() {
   }, [isLoggedIn, user,dispatch]);
 
   console.log("Is Logged In:", isLoggedIn);
-  console.log("User:", user);
-  console.log("User Name:", userName);
+ 
+  console.log("userName:", userName);
   return (
     <>
       <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />

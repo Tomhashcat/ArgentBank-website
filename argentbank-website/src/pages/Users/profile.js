@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFirstName, setLastName, setError, setUserName } from './profileSlice'; 
+import { setFirstName, setLastName, setError, setUserName,setEmail } from './profileSlice'; 
 
 
 import { userDatas } from '../../services/userDatas';
@@ -19,9 +19,10 @@ const Profile = () => {
         dispatch(setFirstName(data.body.firstName));
         dispatch(setLastName(data.body.lastName));
         dispatch(setUserName(data.body.userName));
-
+        dispatch(setEmail(data.body.email));
         if (isRemember) {
           localStorage.setItem('firstName', data.body.firstName);
+          
           localStorage.setItem('userName', data.body.userName);
           localStorage.setItem('lastName', data.body.lastName);
         } else {
