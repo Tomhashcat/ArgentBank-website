@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFirstName, setLastName, setError, setUserName } from './path/to/profileSlice'; // Ajustez le chemin en conséquence
+import { setFirstName, setLastName, setError, setUserName } from './profileSlice'; 
 
 
 import { userDatas } from '../../services/userDatas';
