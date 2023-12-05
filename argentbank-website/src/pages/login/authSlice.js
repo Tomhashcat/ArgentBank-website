@@ -6,24 +6,26 @@ const authSlice = createSlice({
   name: 'auth',
 
   initialState: {
-     token: localStorage.getItem('token') || null,
-     userName: localStorage.getItem('user name') || null,
+    token: localStorage.getItem('token') || null,
+    userName: localStorage.getItem('user name') || null,
+    firstName: localStorage.getItem('first name') || null,
     isLoading: false,
     isAuth: false,
     error: '',
-    isRemember: false,},
+    isRemember: false,
+  },
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    setFirstName:(state, action) =>{
-      state.firstName =action.payload;
+    setFirstName: (state, action) => {
+      state.firstName = action.payload;
     },
     clearToken: (state) => {
       state.token = null;
     },
-    handleSignIn:(state, action)=>{
-      state.token = action.payload; 
+    handleSignIn: (state, action) => {
+      state.token = action.payload;
     }, logingSuccess: (state) => {
       state.isLoading = false
       state.isAuth = true
@@ -46,7 +48,7 @@ const authSlice = createSlice({
 export const selectToken = (state) => state.auth.token;
 export const {
   setToken,
- setFirstName,
+  setFirstName,
   clearToken,
   handleSignIn,
   logingSuccess,

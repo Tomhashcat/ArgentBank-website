@@ -2,7 +2,7 @@ import React , { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserName } from "../../pages/Users/profileSlice";
+
 
 import logoImg from "../../assets/img/argentBankLogo.png";
 import { useAuth } from "../../AuthContext";

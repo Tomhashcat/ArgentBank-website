@@ -41,18 +41,14 @@ function LoginPage() {
         const {firstName} = response.data.body
 
         if (isRemember) {
-          localStorage.setItem("token", token);
-          localStorage.setItem(" FirstName",firstName);
-        }
-        
-        ;
+          dispatch(setToken(token));
+          dispatch(setFirstName(firstName));
+        }      
+               
+        dispatch(setFirstName(firstName));
         dispatch(setToken(token));
-      
-        console.log("firstName:", firstName);
-        localStorage.setItem("token", token);
 
-        
-        
+              
        
         login(token);
         navigate("/User");

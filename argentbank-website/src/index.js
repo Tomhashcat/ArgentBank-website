@@ -8,6 +8,8 @@ import { AuthProvider } from './AuthContext';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import profileReducer from './pages/Users/profileSlice'; 
+
+
 const store = configureStore({
   reducer: {
     auth: authReducer,
