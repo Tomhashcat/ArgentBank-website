@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "./User.scss";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { setFirstName, setLastName, profileError, setUserName, setEmail } from './profileSlice';
 import { useAuth } from '../../AuthContext';
 import EditButton from '../../components/button/button';
@@ -15,6 +16,7 @@ function UserPage() {
   const [isEditingUserName, setIsEditingUserName] = useState(false);
   const dispatch = useDispatch();
 
+  const userName = useSelector((state) => state.profile.userName);
   useEffect(() => {
     // Vérifier si l'utilisateur est connecté
     const token = getToken();
@@ -67,7 +69,7 @@ function UserPage() {
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>Welcome back<br />{userName}!</h1>
         {isEditingUserName ? (
           <EditUserNameForm onSubmit={handleSaveUserName} />
         ) : (
