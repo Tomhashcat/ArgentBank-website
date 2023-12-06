@@ -1,46 +1,52 @@
+import { createSlice } from '@reduxjs/toolkit'
 
-import { createSlice } from '@reduxjs/toolkit';
+const initialState = {
+  isLoading: false,
+  firstName: '',
+  isRemember:false,
+  lastName: '',
+  userName:'',
+  error: '',
+}
 
 const profileSlice = createSlice({
   name: 'profile',
-  initialState: {
-    // Votre état initial ici
-    firstName: '',
-    userName:'',
-    lastName: '',
-    email:'',
-    isRemember: false,
-   
-    error: null,
-    // ... d'autres propriétés
-  },
+  initialState,
   reducers: {
-    // Vos reducers ici
+  
     setFirstName: (state, action) => {
-      state.firstName = action.payload;
-    }, 
-    setEmail: (state, action) => {
-      state.email = action.payload;
-    }, 
-    setUserName: (state, action) => {
-      state.userName = action.payload;
-    },
-    logingRemember: (state, action) => {
-      state.isRemember = action.payload
-    },
-   
-    profileError: (state, action) => {
-      state.error = action.payload;
+      state.isLoading = false
+      state.firstName = action.payload
+      state.error = ''
     },
     setLastName: (state, action) => {
-      state.lastName = action.payload;
+      state.isLoading = false
+      state.lastName = action.payload
+      state.error = ''
     },
-    setError: (state, action) => {
-      state.error = action.payload;
+   setError: (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    }, 
+     setUserName: (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
     },
-    // ... d'autres reducers
+    setIsRemember: (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    },
+   
   },
-});
+})
+const { actions, reducer } = profileSlice
+export const {
 
-export const { setFirstName, setLastName, setError,profileError , setUserName, setEmail, logingRemember} = profileSlice.actions;
-export default profileSlice.reducer;
+  setFirstName,
+  setLastName,
+  setError,
+  setUserName,
+  setIsRemember,
+
+} = actions
+export default reducer

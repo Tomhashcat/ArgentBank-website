@@ -5,7 +5,7 @@ import iconChat from "../../assets/img/icon-chat.png";
 import inconMoney from "../../assets/img/icon-money.png";
 import iconSecurity from "../../assets/img/icon-security.png";
 import { useDispatch } from 'react-redux';
-import { logingError, logingRemember, logingSuccess, logingPending } from '../login/authSlice';
+
 import { useNavigate } from 'react-router-dom';
 /**
  *

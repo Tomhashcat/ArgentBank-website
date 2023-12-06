@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Login.scss";
-import { setToken, logingSuccess, logingError, logingRemember, setFirstName } from "./authSlice";
+import { fetchUserDatas } from "../../services/userDatas";
+import {setFirstName, setUserName, setProfileLastName,setEmail,setLastName, setIsRemember } from "../Users/profileSlice";
 import { useAuth } from "../../AuthContext";
 import axios from "axios"; // Assurez-vous d'installer axios : npm install axios
 import "./Login.scss";
@@ -20,13 +21,13 @@ const saveToSessionStorage = (key, value) => {
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+ 
   const { login } = useAuth();
   
   const dispatch = useDispatch();
-
-  const isRemember = useSelector((state) => state.auth.isRemember);
-  const setIsRemember = (value) => dispatch(logingRemember(value));
+  const profileState = useSelector((state) => state.profile);
+  const isRemember =  profileState.isRemember;
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("isRemember a changé :", isRemember);
@@ -34,16 +35,30 @@ function LoginPage() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
-    const storedFirstName = localStorage.getItem('firstName') || sessionStorage.getItem('firstName');
+  const storedFirstName = localStorage.getItem('firstName') || sessionStorage.getItem('firstName');
+  const storedUserName = localStorage.getItem('userName') || sessionStorage.getItem('userName');
+  const storedLastName = localStorage.getItem('LastName') || sessionStorage.getItem('LastName');
+  const storedEmail = localStorage.getItem('email') || sessionStorage.getItem('email');
+
+  console.log('Stored token:', storedToken);
+  console.log('Stored firstName:', storedFirstName);
+  console.log('Stored userName:', storedUserName);
+  console.log('Stored lastName:', storedLastName);
+  console.log('Stored email:', storedEmail);
+
+  if (storedToken && storedFirstName && storedUserName) {
+    dispatch(setFirstName(storedFirstName));
+   
+    dispatch(setLastName(storedLastName));
+    dispatch(setEmail(storedEmail));
+    dispatch(setUserName(storedUserName));
+    
+
+    navigate("/");
+  }
   
-    if (storedToken) {
-      dispatch(setToken(storedToken));
-    }
-  
-    if (storedFirstName) {
-      dispatch(setFirstName(storedFirstName));
-    }
-  }, [dispatch]);
+   
+  }, [dispatch, isRemember, navigate]);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -66,28 +81,36 @@ function LoginPage() {
       // Vérifier si la réponse contient une propriété 'token'
       if (response.status === 200) {
 
-        const { token } = response.data.body; 
-        const {firstName} = response.data.body
-
+        const { token, firstName, userName } = response.data.body;
+        dispatch(fetchUserDatas(token));
         if (isRemember) {
           dispatch(logingRemember(true));
-          saveToLocalStorage('token', token);
-          saveToLocalStorage('firstName', firstName);
+          dispatch(setFirstName(firstName || "")); 
+          dispatch(setAuthToken(token));
+          dispatch(setFirstName(firstName || ""));
+          dispatch(setUserName(userName || "")); 
           saveToLocalStorage('rememberMe', 'true');
-       ;
-        }else {
-          saveToSessionStorage('token', token);
-          saveToSessionStorage('firstName', firstName);
+          if (userName && firstName) {
+            localStorage.setItem('token', token);
+            localStorage.setItem('firstName', firstName);
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('rememberMe', 'true');
+          } else {
+            console.error('userName ou firstName est indéfini.');
+          }
+        } else {
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('firstName', firstName);
+          sessionStorage.setItem('userName', userName);
         }
-            
-       
+        await fetchUserDatas(token);
         login(token);
         navigate("/User");
       } else {
         console.error("Unexpected response status:", response.status);
       }
     } catch (error) {
-      console.error("Error during login:", error.message);
+      console.error("Unexpected error:", error);
     }
    
 
@@ -120,14 +143,14 @@ function LoginPage() {
             />
           </div>
           <div className="input-remember">
-            <input
-              type="checkbox"
-              id="remember-me"
-              checked={isRemember}
-              onChange={() => setIsRemember(!isRemember)}
-            />
-            <label htmlFor="remember-me">Remember me</label>
-          </div>
+  <input
+    type="checkbox"
+    id="remember-me"
+    checked={isRemember}
+    onChange={() => dispatch(setIsRemember(!isRemember))}
+  />
+  <label htmlFor="remember-me">Remember me</label>
+</div>
 
           <button type="submit" className="sign-in-button">
             Sign In

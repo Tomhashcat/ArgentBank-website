@@ -4,12 +4,12 @@ import axios from 'axios';
 import "./User.scss";
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setFirstName, setLastName, profileError, setUserName, setEmail } from './profileSlice';
+import { setFirstName, setLastName, setUserName, setError } from './profileSlice';
 import { useAuth } from '../../AuthContext';
 
 import EditButton from '../../components/button/button';
 import EditUserNameForm from '../../components/form/form';
-import { userDatas } from '../../services/userDatas';
+import { fetchUserDatas } from '../../services/userDatas';
 
 function UserPage() {
   const { isLoggedIn, getToken } = useAuth();
@@ -18,31 +18,27 @@ function UserPage() {
   const dispatch = useDispatch();
 
   const userName = useSelector((state) => state.profile.userName);
+
   useEffect(() => {
     const token = getToken();
 
     if (!token) {
       navigate('/login');
     } else {
-      userDatas(token)
+      fetchUserDatas(token)
         .then(data => {
-          dispatch(setFirstName(data.firstName));
-          dispatch(setLastName(data.lastName));
-          dispatch(setEmail(data.email));
-          dispatch(setUserName(data.userName));
+        dispatch(setFirstName(data.body.firstName));
+        dispatch(setLastName(data.body.lastName));
+      
+        dispatch(setUserName(data.body.userName));
         })
         .catch(error => {
-          dispatch(profileError(error.response.data.message));
+          dispatch(setError(error.message));
         });
     }
 
-   
-    
-
-
-
-   
   }, [getToken, navigate, dispatch]);
+
   const handleSaveUserName = (newUserName) => {
     const token = getToken();
     if (isLoggedIn && token) {

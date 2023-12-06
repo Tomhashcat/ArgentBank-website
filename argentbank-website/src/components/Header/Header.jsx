@@ -19,39 +19,42 @@ function Header() {
   const dispatch = useDispatch();
   const userName = useSelector((state) => state.profile.userName);
 
+
+  const handleLogout = () => {
+    // Vérifiez si "Remember Me" est coché
+  const isRememberMe = localStorage.getItem('rememberMe') === 'true';
+
+  // Si "Remember Me" est coché, efface le token du localStorage, sinon du sessionStorage
+  const storage = isRememberMe ? localStorage : sessionStorage;
+
+  // Efface le token du stockage lors de la déconnexion
+  localStorage.clear('token');
+ localStorage.clear('userName'); // Assurez-vous de supprimer également le nom d'utilisateur
+sessionStorage.clear('token');
+sessionStorage.clear('userName'); 
+  // Déconnecte l'utilisateur
+  dispatch(handleLogout());
+
+  
+  };
   useEffect(() => {
 
     const storedToken = localStorage.getItem('accessToken');
 
     if (storedToken && isLoggedIn) {
-      // Faites une requête pour obtenir le nom d'utilisateur
-      axios.post('/api/user/signup', {
-        headers: {
-          Authorization: `Bearer ${user.token}`
-        }
-      })
-        .then(response => {
-          console.log("Response Data:", response.data);
-          // Mettez à jour le state avec le nom d'utilisateur récupéré
-          dispatch(setUserName(response.data.username));
-        })
-        .catch(error => {
-          console.error('Erreur lors de la récupération du nom d\'utilisateur:', error);
-        });
+      const storedUserName = localStorage.getItem('userName');
+  
+      if (storedUserName) {
+        dispatch(setUserName(storedUserName));
+      } else {
+        // Dispatch the asynchronous action
+        dispatch(fetchUserDatas(storedToken));
+      }
     }
   }, [isLoggedIn, user, dispatch]);
-  
-  // Gestion du stockage local lors de la déconnexion
-  const handleLogout = () => {
-   // Efface le token du stockage local lors de la déconnexion
-   localStorage.removeItem('token');
 
-   // Vérifie si "Remember Me" est coché
-   if (!localStorage.getItem('rememberMe')) {
-     // Si ce n'est pas coché, déconnectez l'utilisateur
-     logout();
-   }
- };
+  // Gestion du stockage local lors de la déconnexion
+
   console.log("Is Logged In:", isLoggedIn);
 
   console.log("userName:", userName);
@@ -75,9 +78,9 @@ function Header() {
             <>
               <Link className="main-nav-item" to="/User">
                 <i className="fa fa-user-circle"></i>
-                {userName}
+                {userName ? userName : "Loading..."}
               </Link>
-              <Link to="/" onClick={logout} className="main-nav-item">
+              <Link to="/" onClick={handleLogout} className="main-nav-item">
                 <i className="fa fa-sign-out"></i>Sign out
               </Link>
             </>

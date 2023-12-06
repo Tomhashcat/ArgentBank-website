@@ -1,26 +1,37 @@
 import axios from 'axios';
+import { setUserName } from '../pages/Users/profileSlice';
 
 /**
- * Function to get user datas profile
- * @param {string} token - User authentication token
- * @returns {Promise<any>} Promise with user datas
+ * Fonction pour récupérer les données du profil utilisateur
+ * @param {string} token - Jeton d'authentification de l'utilisateur
+ * @returns {Promise<any>} Promesse avec les données de l'utilisateur
  */
-export async function userDatas(token) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const res = await axios.post('http://localhost:3001/api/v1/user/profile', null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res.data && res.data.body) {
-         console.log('User data received:', res); 
-        resolve(res.data.body);
+export const fetchUserDatas = (token) => async (dispatch) => {
+  try {
+    const res = await axios.post('http://localhost:3001/api/v1/user/profile', null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.status >= 200 && res.status < 300) {
+      const json = res.data.body;
+
+      if (json.result && json.result.status === 'error') {
+        dispatch(errorOccurred(json.result));
+        dispatch(logOut());
       } else {
-        reject(new Error('Invalid response format'));
+        const userName = json.result.userName;
+        dispatch(setUserName(userName));
+        dispatch(setUserName(userName));
+        dispatch(verified(json.result));
       }
-    } catch (error) {
-      reject(error);
+
+      // Vous pouvez également appeler vos actions setProfileUserName et setUserName ici si nécessaire
+    } else {
+      throw new Error('Échec de la requête avec le code de statut : ' + res.status);
     }
-  });
-}
+  } catch (error) {
+    dispatch(warningOccurred(error.message));
+  }
+};
