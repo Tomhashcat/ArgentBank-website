@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [userToken, setUserToken] = useState(null);
   const login = (userToken) => {
     console.log("User logged in");
+    
     setIsLoggedIn(true);
     setUserToken(userToken); // Stocker le token utilisateur
     localStorage.setItem("token", userToken); };
