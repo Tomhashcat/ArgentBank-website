@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import store from './store';
 
-import { AuthProvider } from './AuthContext';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -18,9 +18,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
      
-        <AuthProvider>
+        
           <App />
-        </AuthProvider>
+        
       
     </Provider>
   </React.StrictMode>,

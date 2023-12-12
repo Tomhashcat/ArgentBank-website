@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger'
-import profileReducer from './pages/Users/profileSlice';
+import userReducer from './pages/Users/Userlice';
 
 const store = configureStore({
   reducer: {
-    profile: profileReducer,
-    // Ajoutez d'autres réducteurs si nécessaire
+   user: userReducer,
+   
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+ 
 });
 
 export default store;

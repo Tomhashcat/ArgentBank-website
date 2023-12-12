@@ -9,12 +9,12 @@ import LoginPage from './pages/login/login';
 import UserPage from './pages/Users/User';
 import EditUserNameForm from './components/form/form';
 import "./components/Header/Header.scss";
-import { AuthProvider } from './AuthContext';
+
 
 function App() {
   return (
     <Router>
-      <AuthProvider>
+      
         <div className="App">
           <Header />
           <main>
@@ -27,7 +27,7 @@ function App() {
             </Routes>
           </main>
         </div>
-      </AuthProvider>
+     
     </Router>
   );
 }

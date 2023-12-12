@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserName } from "../../pages/Users/profileSlice";
+import { user, isLogin } from "../../pages/Users/Userlice";
 
 import logoImg from "../../assets/img/argentBankLogo.png";
-import { useAuth } from "../../AuthContext";
+
 import axios from "axios";
 
 
@@ -15,49 +15,33 @@ import axios from "axios";
  */
 function Header() {
 
-  const { isLoggedIn, logout, user } = useAuth();
+
   const dispatch = useDispatch();
-  const userName = useSelector((state) => state.profile.userName);
 
 
-  const handleLogout = () => {
-    // Vérifiez si "Remember Me" est coché
-  const isRememberMe = localStorage.getItem('rememberMe') === 'true';
-
-  // Si "Remember Me" est coché, efface le token du localStorage, sinon du sessionStorage
-  const storage = isRememberMe ? localStorage : sessionStorage;
-
-  // Efface le token du stockage lors de la déconnexion
-  localStorage.clear('token');
- localStorage.clear('userName'); // Assurez-vous de supprimer également le nom d'utilisateur
-sessionStorage.clear('token');
-sessionStorage.clear('userName'); 
-  // Déconnecte l'utilisateur
-  dispatch(handleLogout());
 
   
-  };
   useEffect(() => {
 
     const storedToken = localStorage.getItem('accessToken');
 
-    if (storedToken && isLoggedIn) {
-      const storedUserName = localStorage.getItem('userName');
+    if (storedToken && isLogin) {
+      const storedUser = localStorage.getItem('user');
   
-      if (storedUserName) {
-        dispatch(setUserName(storedUserName));
+      if (storedUser) {
+        dispatch(setUserName(storedUser));
       } else {
         // Dispatch the asynchronous action
         dispatch(fetchUserDatas(storedToken));
       }
     }
-  }, [isLoggedIn, user, dispatch]);
+  }, [isLogin, user, dispatch]);
 
   // Gestion du stockage local lors de la déconnexion
 
-  console.log("Is Logged In:", isLoggedIn);
+  console.log("Is Logged In:", isLogin);
 
-  console.log("userName:", userName);
+  console.log("user:", user);
   return (
     <>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -74,7 +58,7 @@ sessionStorage.clear('userName');
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
         <div>
-          {isLoggedIn ? (
+          {isLogin ? (
             <>
               <Link className="main-nav-item" to="/User">
                 <i className="fa fa-user-circle"></i>

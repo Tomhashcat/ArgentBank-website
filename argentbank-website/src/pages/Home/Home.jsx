@@ -15,8 +15,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Home(){
 
-  const dispatch = useDispatch(); 
 
+  const dispatch = useDispatch(); 
+ const navigate = useNavigate();
   const [isRemember, setIsRemember] = useState(false);
 
   const [credientials, setCredientials] = useState({
@@ -24,35 +25,9 @@ function Home(){
     password: '',
   });
 
-  function handelChange({ currentTarget }) {
-    const { value, name } = currentTarget
-    setCredientials({
-      ...credientials,
-      [name]: value,
-    })
-  }
-  
-  async function handelSubmit(e) {
-    e.preventDefault()
-  
 
-    try {
-      const token = "votre_token"; 
-  
-      if (isRemember) {
-        localStorage.setItem('token', isAuth.body.token)
-      } else {
-        localStorage.removeItem('token')
-      }
-  
-      dispatch(logingSuccess())
-      navigate('/profilePage/Profile')
-    } catch (error) {
-      console.log(error)
-      dispatch(logingError(error.response?.data.message|| 'Une erreur est survenue !'))
-    }
-  }
-  const navigate = useNavigate();
+
+ 
 	return (
 		
 		
