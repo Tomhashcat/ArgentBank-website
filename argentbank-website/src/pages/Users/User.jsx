@@ -24,6 +24,7 @@ function UserPage() {
       user = JSON.parse(user);
     }
     else {
+      
       user = null;
     }
     return user;
