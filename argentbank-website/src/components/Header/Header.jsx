@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { user, isLogin } from "../../pages/Users/Userlice";
+import { user, isLogin,userName } from "../../pages/Users/Userlice";
 
 import logoImg from "../../assets/img/argentBankLogo.png";
 
@@ -29,7 +29,7 @@ function Header() {
       const storedUser = localStorage.getItem('user');
   
       if (storedUser) {
-        dispatch(setUserName(storedUser));
+        dispatch(setUserName(storedUserName));
       } else {
         // Dispatch the asynchronous action
         dispatch(fetchUserDatas(storedToken));
@@ -41,7 +41,7 @@ function Header() {
 
   console.log("Is Logged In:", isLogin);
 
-  console.log("user:", user);
+  console.log("userName:", userName);
   return (
     <>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
