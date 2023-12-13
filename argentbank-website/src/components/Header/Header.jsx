@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { user, isLogin,userName } from "../../pages/Users/Userlice";
+import { user, isLogin,userName, setProfileUserName } from "../../pages/Users/Userlice";
 
 import logoImg from "../../assets/img/argentBankLogo.png";
 
@@ -25,11 +25,14 @@ function Header() {
 
     const storedToken = localStorage.getItem('accessToken');
 
+   
+
     if (storedToken && isLogin) {
       const storedUser = localStorage.getItem('user');
-  
+   const storedUserName = localStorage.getItem('userName');
       if (storedUser) {
-        dispatch(setUserName(storedUserName));
+
+        dispatch(setProfileUserName(storedUserName));
       } else {
         // Dispatch the asynchronous action
         dispatch(fetchUserDatas(storedToken));

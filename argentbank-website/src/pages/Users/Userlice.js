@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk(
   async (userCredentials, { dispatch }) => {
     try {
       const request = await axios.post('http://localhost:3001/api/v1/user/login', userCredentials);
-      const response = await request.data.body;
+      const response = request.data.body;
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response));
 
@@ -37,13 +37,12 @@ export const fetchUserDatas = createAsyncThunk(
         }
       );
       const { data } = res;  
-      console.log(data);  
+      console.log('Profile Response:', data); // Ajoutez cette ligne pour déboguer
 
       if (data && data.status === 200) {
         const { body } = data;  
         if (body) {
-      
-          dispatch(setProfileUserName(body.userName)); 
+          dispatch(setProfileUserName(body.userName));
           return body;  
         } else {
           throw new Error('Invalid response body');
@@ -52,13 +51,12 @@ export const fetchUserDatas = createAsyncThunk(
         throw new Error(data ? data.message : 'Invalid response');
       }
     } catch (error) {
-    ;
       throw error;
     }
   }
 );
 
-const userSlice = createSlice({
+const UserSlice = createSlice({
   name: 'user',
 
   initialState: {
@@ -73,6 +71,7 @@ const userSlice = createSlice({
   reducers: {
     // Reducer pour définir le nom d'utilisateur dans l'état
     setProfileUserName: (state, action) => {
+      console.log('New userName:', action.payload);
       state.userName = action.payload;
     },
   },
@@ -120,11 +119,7 @@ const userSlice = createSlice({
             state.userName = body.userName;
             state.isLogin = true;
             state.error = null;
-          } else {
-            state.userName = '';
-            state.isLogin = false;
-            state.error = 'Invalid response body';
-          }
+          } 
         } else {
           state.userName = '';
           state.isLogin = false;
@@ -147,6 +142,6 @@ const userSlice = createSlice({
 });
 
 
-const { actions, reducer } = userSlice;
-export const { userName, error, isLogin, user, isRemember, isLoading } = userSlice.actions;
-export default userSlice.reducer;
+const { actions, reducer } = UserSlice;
+export const { userName, error, isLogin, user, isRemember, isLoading} = UserSlice.actions;
+export default UserSlice.reducer;
