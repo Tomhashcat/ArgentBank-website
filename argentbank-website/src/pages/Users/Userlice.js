@@ -68,13 +68,7 @@ const UserSlice = createSlice({
     isLogin: false,
     error: null,
   },
-  reducers: {
-    // Reducer pour définir le nom d'utilisateur dans l'état
-    setProfileUserName: (state, action) => {
-      console.log('New userName:', action.payload);
-      state.userName = action.payload;
-    },
-  },
+ 
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -83,6 +77,7 @@ const UserSlice = createSlice({
         state.loading = true;
         state.user = null;
         state.error = null;
+       
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
@@ -90,7 +85,7 @@ const UserSlice = createSlice({
         state.token = action.payload.token; 
         state.isRemember = false;
         state.error = null;
-        state.isLogin = true; 
+       
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -103,7 +98,7 @@ const UserSlice = createSlice({
         } else {
           state.error = action.error.message;
         }
-        state.isLogin = false; 
+       
       })
       .addCase(fetchUserDatas.pending, (state) => {
         state.userName = '';
@@ -111,20 +106,11 @@ const UserSlice = createSlice({
       })
       .addCase(fetchUserDatas.fulfilled, (state, action) => {
        
-        const { data } = action.payload;
-
-        if (data && data.status === 200) {
-          const { body } = data;
-          if (body) {
-            state.userName = body.userName;
-            state.isLogin = true;
-            state.error = null;
-          } 
-        } else {
-          state.userName = '';
-          state.isLogin = false;
-          state.error = data ? data : 'Invalid response';
-        }
+        console.log('New userName:', action.payload.userName);
+        state.userName = action.payload.userName;
+        state.isLogin = true;
+        state.error = null;
+      
       })
   
       .addCase(fetchUserDatas.rejected, (state, action) => {
