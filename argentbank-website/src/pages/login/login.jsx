@@ -26,8 +26,8 @@ const handleLoginEvent=(e)=>{
       console.log('Login result:', result);
       if (result.payload && result.payload.token) {
         console.log('Login successful!');
-        localStorage.setItem('token', result.payload.token);  // Store the token in local storage
-        localStorage.setItem('user', JSON.stringify(result.payload));
+       
+      
         setEmail('');
         setPassword('');
         navigate('/User');

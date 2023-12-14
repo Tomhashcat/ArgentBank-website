@@ -5,6 +5,11 @@ export const setProfileUserName = (userName) => ({
   type: 'user/setProfileUserName',
   payload: userName,
 });
+export const setProfileFirstName = (firstName) => ({
+  type: 'user/setProfileFirstName',
+  payload:firstName,
+
+});
 export const loginUser = createAsyncThunk(
   'user/login',
   async (userCredentials, { dispatch }) => {
@@ -12,7 +17,7 @@ export const loginUser = createAsyncThunk(
       const request = await axios.post('http://localhost:3001/api/v1/user/login', userCredentials);
       const response = request.data.body;
       localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response));
+      
 
       dispatch(fetchUserDatas(response.token));
       return response;
@@ -43,6 +48,7 @@ export const fetchUserDatas = createAsyncThunk(
         const { body } = data;  
         if (body) {
           dispatch(setProfileUserName(body.userName));
+          dispatch(setProfileFirstName(body.firstName));
           return body;  
         } else {
           throw new Error('Invalid response body');
@@ -63,6 +69,7 @@ const UserSlice = createSlice({
     loading: false,
     user: null,
     token: '',
+    firstName:'',
     isRemember: false,
     userName: '',
     isLogin: false,
@@ -102,12 +109,15 @@ const UserSlice = createSlice({
       })
       .addCase(fetchUserDatas.pending, (state) => {
         state.userName = '';
+        state.firstName='';
         state.isLogin = true;
       })
       .addCase(fetchUserDatas.fulfilled, (state, action) => {
        
         console.log('New userName:', action.payload.userName);
+        console.log('New firstName:', action.payload.firstName);
         state.userName = action.payload.userName;
+        state.firstName=action.payload.firstName;
         state.isLogin = true;
         state.error = null;
       
@@ -115,6 +125,7 @@ const UserSlice = createSlice({
   
       .addCase(fetchUserDatas.rejected, (state, action) => {
         state.userName = '';
+        state.firstName='';
         state.isLogin = false;
         console.log(action.error.message);
 
