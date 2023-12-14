@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./User.scss";
 import { useDispatch, useSelector } from 'react-redux';
 
-import {  firstName,  lastName,  error, isLogin, user,  isRemember,} from './UserSlice';
+import {  firstName, error, user, token } from './UserSlice';
 
 
 import EditButton from '../../components/button/button';
@@ -17,19 +17,8 @@ function UserPage() {
   const navigate = useNavigate();
   const [isEditingUserName, setIsEditingUserName] = useState(false);
   const dispatch = useDispatch();
+const firstName=useSelector((state) => state.user.firstName)
 
-  function getUser() {
-    let user = localStorage.getItem('user');
-    if (user) {
-      user = JSON.parse(user);
-    }
-    else {
-      
-      user = null;
-    }
-    return user;
-  };
-  const [user, setUser] = useState(getUser());
 
 
 
@@ -47,11 +36,11 @@ function UserPage() {
 
   return (
     <>
-      {user ? (
+     
         <main className="main bg-dark">
 
           <div className="header">
-            <h1>Welcome back<br />{user.firstname} !</h1>
+            <h1>Welcome back<br />{firstName} !</h1>
             {isEditingUserName ? (
               <EditUserNameForm onSubmit={handleSaveUserName} />
             ) : (
@@ -91,7 +80,7 @@ function UserPage() {
           </section>
 
         </main>
-      ) : null}
+     
     </>
   );
 }

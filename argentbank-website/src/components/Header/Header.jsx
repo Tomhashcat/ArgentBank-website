@@ -1,12 +1,24 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { user, isLogin,userName, setProfileUserName } from "../../pages/Users/UserSlice";
+import { useDispatch, useSelector} from "react-redux";
+import { isLogin,userName  } from "../../pages/Users/UserSlice";
 
 import logoImg from "../../assets/img/argentBankLogo.png";
 
 import axios from "axios";
+
+export function logOut() {
+  const dispatch = useDispatch();
+
+  // Mettre isLogin à false
+  dispatch(isLogin(false));
+
+  // Vider le local storage
+  localStorage.removeItem('token');
+  localStorage.removeItem('userName');
+  localStorage.removeItem('firstName');
+}
 
 
 /**
@@ -17,33 +29,20 @@ function Header() {
 
 
   const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.user.isLogin);
+  const userName = localStorage.getItem('userName');
+ 
+ 
 
 
-
+  const handleLogout = () => {
   
-  useEffect(() => {
-
-    const storedToken = localStorage.getItem('accessToken');
-
-   
-
-    if (storedToken && isLogin) {
-      const storedUser = localStorage.getItem('user');
-   const storedUserName = localStorage.getItem('userName');
-      if (storedUser) {
-
-        dispatch(setProfileUserName(storedUserName));
-      } else {
-        // Dispatch the asynchronous action
-        dispatch(fetchUserDatas(storedToken));
-      }
-    }
-  }, [isLogin, user, dispatch]);
+  };
+ 
 
   // Gestion du stockage local lors de la déconnexion
 
-  console.log("Is Logged In:", isLogin);
-
+  
   console.log("userName:", userName);
   return (
     <>
@@ -61,11 +60,11 @@ function Header() {
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
         <div>
-          {isLogin ? (
+          {isLogin  ? (
             <>
               <Link className="main-nav-item" to="/User">
                 <i className="fa fa-user-circle"></i>
-                {userName ? userName : "Loading..."}
+                {userName   ? userName  : "Loading..."}
               </Link>
               <Link to="/" onClick={handleLogout} className="main-nav-item">
                 <i className="fa fa-sign-out"></i>Sign out

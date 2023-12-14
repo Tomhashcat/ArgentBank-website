@@ -49,6 +49,7 @@ export const fetchUserDatas = createAsyncThunk(
         if (body) {
           dispatch(setProfileUserName(body.userName));
           dispatch(setProfileFirstName(body.firstName));
+         
           return body;  
         } else {
           throw new Error('Invalid response body');
@@ -110,7 +111,8 @@ const UserSlice = createSlice({
       .addCase(fetchUserDatas.pending, (state) => {
         state.userName = '';
         state.firstName='';
-        state.isLogin = true;
+        state.isLogin =false;
+        
       })
       .addCase(fetchUserDatas.fulfilled, (state, action) => {
        
@@ -120,13 +122,15 @@ const UserSlice = createSlice({
         state.firstName=action.payload.firstName;
         state.isLogin = true;
         state.error = null;
-      
+        localStorage.setItem('userName', action.payload.userName);
+        localStorage.setItem('firstName',action.payload.firstName);
       })
   
       .addCase(fetchUserDatas.rejected, (state, action) => {
         state.userName = '';
         state.firstName='';
         state.isLogin = false;
+        
         console.log(action.error.message);
 
         if (action.error.message === 'Request failed with status code 401') {
@@ -140,5 +144,5 @@ const UserSlice = createSlice({
 
 
 const { actions, reducer } = UserSlice;
-export const { userName, error, isLogin, user, isRemember, isLoading} = UserSlice.actions;
+export const { userName, error, isLogin, user, isRemember, isLoading, firstName} = UserSlice.actions;
 export default UserSlice.reducer;
