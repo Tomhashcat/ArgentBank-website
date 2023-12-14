@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./User.scss";
 import { useDispatch, useSelector } from 'react-redux';
 
-import {  firstName,  lastName,  error, isLogin, user,  isRemember,} from './Userlice';
+import {  firstName,  lastName,  error, isLogin, user,  isRemember,} from './UserSlice';
 
 
 import EditButton from '../../components/button/button';

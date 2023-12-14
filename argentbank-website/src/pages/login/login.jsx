@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Login.scss";
 
-import { loginUser } from "../Users/Userlice";
+import { loginUser } from "../Users/UserSlice";
 import "./Login.scss";
 
 export function LoginPage() {
