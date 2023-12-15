@@ -29,7 +29,7 @@ function UserPage() {
 
     const newUserName= useSelector((state)=>state.user.userName)
   
-
+if(!token){navigate('/Login')}
 
 
   return (
