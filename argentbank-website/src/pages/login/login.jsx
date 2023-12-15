@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import "./Login.scss";
 
-import { loginUser,isRemember } from "../Users/UserSlice";
+import { loginUser,isRemember, setIsRememberAction } from "../Users/UserSlice";
 import "./Login.scss";
 
 export function LoginPage() {
+
 const[email, setEmail]= useState('');
 const [password, setPassword] = useState('');
-const {loading, error, isRemember}=useSelector((state)=>state.user)
+const {loading, error}=useSelector((state)=>state.user);
+
 const dispatch= useDispatch();
 const navigate= useNavigate();
 
@@ -35,7 +37,12 @@ const handleLoginEvent=(e)=>{
       console.error('Login error:', err);
     });
 };
+const isRemember = useSelector((state) => state.user.isRemember);
+const setIsRemember = (value) => dispatch(setIsRememberAction(value));
 
+useEffect(() => {
+  console.log("isRemember a changé :", isRemember);
+}, [dispatch, isRemember]);
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
@@ -67,8 +74,8 @@ const handleLoginEvent=(e)=>{
             <input
               type="checkbox"
               id="remember-me"
-              defaultChecked={isRemember}
-              onChange={() => dispatch(isRemember(!isRemember))}
+              checked={isRemember}
+              onChange={() => setIsRemember(!isRemember)}
             />
             <label htmlFor="remember-me">Remember me</label>
           </div>

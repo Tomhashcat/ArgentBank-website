@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { handleSaveUserName } from '../../components/form/form';
 
@@ -8,9 +8,11 @@ export const setProfileUserName = (userName) => ({
 });
 export const setProfileFirstName = (firstName) => ({
   type: 'user/setProfileFirstName',
-  payload:firstName,
+  payload: firstName,
 
 });
+export const setIsRememberAction = createAction('user/setIsRemember');
+
 export const loginUser = createAsyncThunk(
   'user/login',
   async (userCredentials, { dispatch }) => {
@@ -18,8 +20,8 @@ export const loginUser = createAsyncThunk(
       const request = await axios.post('http://localhost:3001/api/v1/user/login', userCredentials);
       const response = request.data.body;
       localStorage.setItem('token', response.token);
-      
-dispatch(handleSaveUserName(response.token));
+
+      dispatch(handleSaveUserName(response.token));
       dispatch(fetchUserDatas(response.token));
       return response;
     } catch (error) {
@@ -42,16 +44,16 @@ export const fetchUserDatas = createAsyncThunk(
           },
         }
       );
-      const { data } = res;  
+      const { data } = res;
       console.log('Profile Response:', data); // Ajoutez cette ligne pour déboguer
 
       if (data && data.status === 200) {
-        const { body } = data;  
+        const { body } = data;
         if (body) {
           dispatch(setProfileUserName(body.userName));
           dispatch(setProfileFirstName(body.firstName));
-         
-          return body;  
+
+          return body;
         } else {
           throw new Error('Invalid response body');
         }
@@ -71,30 +73,31 @@ const UserSlice = createSlice({
     loading: false,
     user: null,
     token: '',
-    firstName:'',
+    firstName: '',
     isRemember: false,
     userName: '',
     isLogin: false,
     error: null,
   },
- 
+
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
         state.isRemember = false;
+
         state.token = '';
         state.loading = true;
         state.user = null;
         state.error = null;
-       
+
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.token = action.payload.token; 
-        state.isRemember = false;
-        state.error = null;
-       
+        state.token = action.payload.token;
+        state.isRemember = true;
+      
+
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -107,31 +110,31 @@ const UserSlice = createSlice({
         } else {
           state.error = action.error.message;
         }
-       
+
       })
       .addCase(fetchUserDatas.pending, (state) => {
         state.userName = '';
-        state.firstName='';
-        state.isLogin =false;
-        
+        state.firstName = '';
+        state.isLogin = false;
+
       })
       .addCase(fetchUserDatas.fulfilled, (state, action) => {
-       
+
         console.log('New userName:', action.payload.userName);
         console.log('New firstName:', action.payload.firstName);
         state.userName = action.payload.userName;
-        state.firstName=action.payload.firstName;
+        state.firstName = action.payload.firstName;
         state.isLogin = true;
         state.error = null;
         localStorage.setItem('userName', action.payload.userName);
-        localStorage.setItem('firstName',action.payload.firstName);
+        localStorage.setItem('firstName', action.payload.firstName);
       })
-  
+
       .addCase(fetchUserDatas.rejected, (state, action) => {
         state.userName = '';
-        state.firstName='';
+        state.firstName = '';
         state.isLogin = false;
-        
+
         console.log(action.error.message);
 
         if (action.error.message === 'Request failed with status code 401') {
@@ -139,11 +142,14 @@ const UserSlice = createSlice({
         } else {
           state.error = action.error.message;
         }
+      })
+      .addCase(setIsRememberAction, (state, action) => {
+        state.isRemember = action.payload;
       });
   },
 });
 
 
 const { actions, reducer } = UserSlice;
-export const { userName, error, isLogin, user,token, isRemember, isLoading, firstName} = UserSlice.actions;
+export const { userName, error, isLogin, user, token, isRemember, isLoading, firstName } = UserSlice.actions;
 export default UserSlice.reducer;
