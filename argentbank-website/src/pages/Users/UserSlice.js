@@ -21,7 +21,7 @@ export const loginUser = createAsyncThunk(
       const response = request.data.body;
       localStorage.setItem('token', response.token);
 
-      dispatch(handleSaveUserName(response.token));
+      
       dispatch(fetchUserDatas(response.token));
       return response;
     } catch (error) {
@@ -95,6 +95,7 @@ const UserSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload.token;
+ 
         state.isRemember = true;
       
 
@@ -103,6 +104,7 @@ const UserSlice = createSlice({
         state.loading = false;
         state.isRemember = false;
         state.user = null;
+        state.token = '';
         console.log(action.error.message);
 
         if (action.error.message === 'Request failed with status code 401') {

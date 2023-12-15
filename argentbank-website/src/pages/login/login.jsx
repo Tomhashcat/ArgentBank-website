@@ -4,17 +4,19 @@ import { useNavigate } from "react-router-dom";
 
 import "./Login.scss";
 
-import { loginUser,isRemember, setIsRememberAction } from "../Users/UserSlice";
+import { loginUser,isRemember, setIsRememberAction,token } from "../Users/UserSlice";
 import "./Login.scss";
 
 export function LoginPage() {
-
+  const navigate= useNavigate();
 const[email, setEmail]= useState('');
 const [password, setPassword] = useState('');
 const {loading, error}=useSelector((state)=>state.user);
+const localToken = useSelector((state) => state.user.token);
+
 
 const dispatch= useDispatch();
-const navigate= useNavigate();
+
 
 const handleLoginEvent=(e)=>{
   e.preventDefault();
