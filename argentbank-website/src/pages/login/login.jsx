@@ -37,6 +37,9 @@ const handleLoginEvent=(e)=>{
       console.error('Login error:', err);
     });
 };
+if(loginUser){
+  navigate('/User');
+}
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
