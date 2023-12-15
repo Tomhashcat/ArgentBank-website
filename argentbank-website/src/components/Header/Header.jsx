@@ -1,24 +1,15 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
-import { useDispatch, useSelector} from "react-redux";
-import { isLogin,userName  } from "../../pages/Users/UserSlice";
+import {  useSelector, useDispatch} from "react-redux";
+import { fetchUserDatas, isLogin,userName,token  } from "../../pages/Users/UserSlice";
 
 import logoImg from "../../assets/img/argentBankLogo.png";
 
 import axios from "axios";
 
-export function logOut() {
-  const dispatch = useDispatch();
 
-  // Mettre isLogin à false
-  dispatch(isLogin(false));
 
-  // Vider le local storage
-  localStorage.removeItem('token');
-  localStorage.removeItem('userName');
-  localStorage.removeItem('firstName');
-}
 
 
 /**
@@ -31,14 +22,21 @@ function Header() {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
   const userName = localStorage.getItem('userName');
- 
- 
-
-
-  const handleLogout = () => {
+  const token = localStorage.getItem('token');
   
-  };
+  useEffect(() => {
+    // Vérifiez si un token est présent dans le localStorage
+    if (token) {
+      // Si un token est présent, appelez votre fonction pour charger les données utilisateur
+      dispatch(fetchUserDatas(token));
+    }
+  }, [dispatch, token]);
  
+  const handleLogout = () => {
+    window.localStorage.clear();
+    window.location.reload(true);
+    window.location.replace('/');
+  };
 
   // Gestion du stockage local lors de la déconnexion
 

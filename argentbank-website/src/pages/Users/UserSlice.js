@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { handleSaveUserName } from '../../components/form/form';
 
 export const setProfileUserName = (userName) => ({
   type: 'user/setProfileUserName',
@@ -18,7 +19,7 @@ export const loginUser = createAsyncThunk(
       const response = request.data.body;
       localStorage.setItem('token', response.token);
       
-
+dispatch(handleSaveUserName(response.token));
       dispatch(fetchUserDatas(response.token));
       return response;
     } catch (error) {
@@ -144,5 +145,5 @@ const UserSlice = createSlice({
 
 
 const { actions, reducer } = UserSlice;
-export const { userName, error, isLogin, user, isRemember, isLoading, firstName} = UserSlice.actions;
+export const { userName, error, isLogin, user,token, isRemember, isLoading, firstName} = UserSlice.actions;
 export default UserSlice.reducer;
