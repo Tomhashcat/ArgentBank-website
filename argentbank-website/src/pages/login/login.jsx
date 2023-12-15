@@ -4,14 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import "./Login.scss";
 
-import { loginUser } from "../Users/UserSlice";
+import { loginUser,isRemember } from "../Users/UserSlice";
 import "./Login.scss";
 
 export function LoginPage() {
 const[email, setEmail]= useState('');
 const [password, setPassword] = useState('');
-
-
 const {loading, error, isRemember}=useSelector((state)=>state.user)
 const dispatch= useDispatch();
 const navigate= useNavigate();
@@ -37,9 +35,7 @@ const handleLoginEvent=(e)=>{
       console.error('Login error:', err);
     });
 };
-if(loginUser){
-  navigate('/User');
-}
+
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
@@ -54,6 +50,7 @@ if(loginUser){
               value={email}
               onChange={(e)=>setEmail(e.target.value)}
               autoComplete="email"
+              
             />
           </div>
           <div className="input-wrapper">

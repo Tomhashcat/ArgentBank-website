@@ -81,7 +81,7 @@ const UserSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        state.isRemember = true;
+        state.isRemember = false;
         state.token = '';
         state.loading = true;
         state.user = null;

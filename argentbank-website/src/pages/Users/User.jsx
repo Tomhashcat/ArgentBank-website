@@ -12,27 +12,34 @@ import EditUserNameForm from '../../components/form/form';
 
 
 function UserPage() {
-
+ 
  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isEditingUserName, setIsEditingUserName] = useState(false);
-
+  const token = useSelector((state) => state.user.token)
+  useEffect(() => {
+    // Check for the presence of a token, and redirect to login if not present
+    if (!token) {
+      navigate('/Login');
+    }
+  }, [token, navigate]);
   const handleEditNameClick = () => {
     setIsEditingUserName(true);
   };
   const firstName = useSelector((state) => state.user.firstName)
-  const token = useSelector((state) => state.user.token)
+
   const isLogin = useSelector((state) => state.user.isLogin)
 
 
 
     const newUserName= useSelector((state)=>state.user.userName)
   
-if(!token){navigate('/Login')}
 
+  
 
   return (
+    
     <>
 
       <main className="main bg-dark">
