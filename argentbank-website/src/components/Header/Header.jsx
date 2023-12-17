@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import {  useSelector, useDispatch} from "react-redux";
-import { fetchUserDatas, isLogin,userName,token  } from "../../pages/Users/UserSlice";
+import { fetchUserDatas, isLogin,userName,token, isRemember  } from "../../pages/Users/UserSlice";
 
 import logoImg from "../../assets/img/argentBankLogo.png";
 
@@ -21,9 +21,9 @@ function Header() {
 
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
-  const userName = localStorage.getItem('userName');
+  const userName =  useSelector((state) => state.user.userName);
   const token = localStorage.getItem('token');
-  
+  const isRemember = useSelector((state) => state.user.isRemember);
   useEffect(() => {
     // Vérifiez si un token est présent dans le localStorage
     if (token) {
@@ -33,9 +33,16 @@ function Header() {
   }, [dispatch, token]);
  
   const handleLogout = () => {
-    window.localStorage.clear();
+    if(isRemember){
+      window.localStorage.clear();
+    }else{
+      window.localStorage.clear();
+        window.sessionStorage.clear();
+    }
+      
     window.location.reload(true);
     window.location.replace('/');
+
   };
 
   // Gestion du stockage local lors de la déconnexion

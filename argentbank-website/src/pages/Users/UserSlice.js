@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { handleSaveUserName } from '../../components/form/form';
+import { useSelector } from 'react-redux';
 
 export const setProfileUserName = (userName) => ({
   type: 'user/setProfileUserName',
@@ -19,9 +20,9 @@ export const loginUser = createAsyncThunk(
     try {
       const request = await axios.post('http://localhost:3001/api/v1/user/login', userCredentials);
       const response = request.data.body;
-      localStorage.setItem('token', response.token);
+     
 
-      
+
       dispatch(fetchUserDatas(response.token));
       return response;
     } catch (error) {
@@ -46,7 +47,7 @@ export const fetchUserDatas = createAsyncThunk(
       );
       const { data } = res;
       console.log('Profile Response:', data); // Ajoutez cette ligne pour déboguer
-
+    
       if (data && data.status === 200) {
         const { body } = data;
         if (body) {
@@ -95,9 +96,9 @@ const UserSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload.token;
- 
+        localStorage.setItem('token', action.payload.token);
         state.isRemember = true;
-      
+
 
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -128,8 +129,18 @@ const UserSlice = createSlice({
         state.firstName = action.payload.firstName;
         state.isLogin = true;
         state.error = null;
-        localStorage.setItem('userName', action.payload.userName);
-        localStorage.setItem('firstName', action.payload.firstName);
+        
+       console.log('isRemember:', state.isRemember);
+        if (state.isRemember) {
+          
+         localStorage.setItem('userName', action.payload.userName);
+          localStorage.setItem('firstName', action.payload.firstName); 
+       
+        } else {
+          sessionStorage.setItem('userName', action.payload.userName);
+          sessionStorage.setItem('firstName', action.payload.firstName);
+        }
+    
       })
 
       .addCase(fetchUserDatas.rejected, (state, action) => {
