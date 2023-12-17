@@ -4,6 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 import Error from './pages/Error/Error';
 import LoginPage from './pages/login/login';
 import UserPage from './pages/Users/User';
@@ -26,6 +27,7 @@ function App() {
               <Route path="/*" element={<Error />} />
             </Routes>
           </main>
+          <Footer />
         </div>
      
     </Router>
