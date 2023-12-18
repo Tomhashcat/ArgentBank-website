@@ -131,12 +131,15 @@ const UserSlice = createSlice({
         state.error = null;
         
        console.log('isRemember:', state.isRemember);
+
         if (state.isRemember) {
           
          localStorage.setItem('userName', action.payload.userName);
           localStorage.setItem('firstName', action.payload.firstName); 
        
         } else {
+          localStorage.removeItem('userName', action.payload.userName);
+          localStorage.removeItem('firstName', action.payload.firstName); 
           sessionStorage.setItem('userName', action.payload.userName);
           sessionStorage.setItem('firstName', action.payload.firstName);
         }
@@ -158,6 +161,7 @@ const UserSlice = createSlice({
       })
       .addCase(setIsRememberAction, (state, action) => {
         state.isRemember = action.payload;
+     
       });
   },
 });

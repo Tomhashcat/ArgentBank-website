@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import userReducer from './pages/Users/UserSlice';
+import userReducer,{setIsRememberAction} from './pages/Users/UserSlice';
+
+const initialState = {};
 
 const store = configureStore({
   reducer: {
    user: userReducer,
    
   },
- 
+  preloadedState: initialState,
 });
 const isRememberValue = localStorage.getItem('isRemember');
 if (isRememberValue) {

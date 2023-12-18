@@ -45,9 +45,9 @@ function Home(){
         <h2 className="sr-only">Features</h2>
        
        
-       <FeatureItem icon={iconChat} title="Chat Support" description="Get help whenever you need it."/>
-       <FeatureItem icon={inconMoney} title="No Minimum Deposit" description="Start saving with any amount." />
-       <FeatureItem icon={iconSecurity} title="High Security" description="Your money is safe and secure." />
+       <FeatureItem icon={iconChat} title="Chat Support" alt="icon de chat" description="Get help whenever you need it."/>
+       <FeatureItem icon={inconMoney} title="No Minimum Deposit" alt="icon de money"   description="Start saving with any amount." />
+       <FeatureItem icon={iconSecurity} title="High Security" alt="icon de security"  description="Your money is safe and secure." />
        
       </section>
    
