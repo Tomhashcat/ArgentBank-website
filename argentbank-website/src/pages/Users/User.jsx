@@ -18,11 +18,9 @@ function UserPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isEditingUserName, setIsEditingUserName] = useState(false);
-
-  const [token, setToken]=  useState(
-    localStorage.getItem("token") || sessionStorage.getItem("token"));
+  const token = useSelector((state) => state.user.token);
   useEffect(() => {
-    // Check for the presence of a token, and redirect to login if not present 
+    
 
     if (!token) {
       navigate('/Login');
