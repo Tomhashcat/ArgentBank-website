@@ -21,11 +21,11 @@ function UserPage() {
   const token = useSelector((state) => state.user.token);
   useEffect(() => {
     
-
-    if (!token) {
+    const storedToken  = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (!storedToken) {
       navigate('/Login');
     }
-  }, [token]);
+  }, [token, navigate]);
 
   const handleEditNameClick = () => {
     setIsEditingUserName(true);

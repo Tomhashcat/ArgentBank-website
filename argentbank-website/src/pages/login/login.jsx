@@ -15,7 +15,11 @@ export function LoginPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (token) {
+    const storedToken  = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (storedToken) { 
+      
+ 
+      console.log('Redirecting to /User');
       navigate('/User');
     }
   }, [token, navigate]);
