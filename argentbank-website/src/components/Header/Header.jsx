@@ -4,7 +4,7 @@ import "./Header.scss";
 import {  useSelector, useDispatch} from "react-redux";
 import { fetchUserDatas  } from "../../pages/Users/UserSlice";
 
-import logoImg from "../../assets/img/argentBankLogo.png";
+import logoImg from "../../assets/img/argentBankLogo.webp";
 
 import axios from "axios";
 

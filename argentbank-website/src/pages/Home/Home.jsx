@@ -1,9 +1,9 @@
 
 import React, {useState} from 'react';
 import "./Home.scss";
-import iconChat from "../../assets/img/icon-chat.png";
-import inconMoney from "../../assets/img/icon-money.png";
-import iconSecurity from "../../assets/img/icon-security.png";
+import iconChat from "../../assets/img/icon-chat.webp";
+import inconMoney from "../../assets/img/icon-money.webp";
+import iconSecurity from "../../assets/img/icon-security.webp";
 import { useDispatch } from 'react-redux';
 import FeatureItem from '../../components/featureItems/FeatureItem';
 import { useNavigate } from 'react-router-dom';
@@ -16,23 +16,13 @@ import { useNavigate } from 'react-router-dom';
 function Home(){
 
 
-  const dispatch = useDispatch(); 
- const navigate = useNavigate();
-  const [isRemember, setIsRemember] = useState(false);
-
-  const [credientials, setCredientials] = useState({
-    email: '',
-    password: '',
-  });
-
-
 
  
 	return (
 		
 		
     <>
-      <div className="hero">
+      <div className="hero" >
         <section className="hero-content">
           <h2 className="sr-only">Promoted Content</h2>
           <p className="subtitle">No fees.</p>
