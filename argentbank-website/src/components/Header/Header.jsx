@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import {  useSelector, useDispatch} from "react-redux";
-import { fetchUserDatas, isLogin,userName,token, isRemember  } from "../../pages/Users/UserSlice";
+import { fetchUserDatas  } from "../../pages/Users/UserSlice";
 
 import logoImg from "../../assets/img/argentBankLogo.png";
 
@@ -20,16 +20,15 @@ function Header() {
 
 
   const dispatch = useDispatch();
-  const isLogin = useSelector((state) => state.user.isLogin);
+ 
   const userName =  useSelector((state) => state.user.userName);
-  const token = localStorage.getItem('token');
+  console.log('UserName in Header:', userName);
+  const token = localStorage.getItem('token')||sessionStorage.getItem('token');
   const isRemember = useSelector((state) => state.user.isRemember);
+
   useEffect(() => {
-    // Vérifiez si un token est présent dans le localStorage
-    if (token) {
-      // Si un token est présent, appelez votre fonction pour charger les données utilisateur
-      dispatch(fetchUserDatas(token));
-    }
+    // Charger les données de l'utilisateur lorsque le composant est monté
+    dispatch(fetchUserDatas(token));
   }, [dispatch, token]);
  
   const handleLogout = () => {
@@ -45,10 +44,10 @@ function Header() {
 
   };
 
-  // Gestion du stockage local lors de la déconnexion
+
 
   
-  console.log("userName:", userName);
+  
   return (
     <>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -65,7 +64,7 @@ function Header() {
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
         <div>
-          {isLogin  ? (
+          {token  ? (
             <>
               <Link className="main-nav-item" to="/User">
                 <i className="fa fa-user-circle"></i>

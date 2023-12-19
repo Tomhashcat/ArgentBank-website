@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { token } from '../../pages/Users/UserSlice';
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const handleSaveUserName = createAsyncThunk(
@@ -11,7 +11,7 @@ export const handleSaveUserName = createAsyncThunk(
 
   async (newUserName, { dispatch, getState }) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       const response = await axios.put(
         'http://localhost:3001/api/v1/user/profile',

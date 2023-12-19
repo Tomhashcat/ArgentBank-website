@@ -19,22 +19,22 @@ function UserPage() {
   const dispatch = useDispatch();
   const [isEditingUserName, setIsEditingUserName] = useState(false);
 
-  const token = localStorage.getItem('token');
+  const [token, setToken]=  useState(
+    localStorage.getItem("token") || sessionStorage.getItem("token"));
   useEffect(() => {
     // Check for the presence of a token, and redirect to login if not present 
 
     if (!token) {
       navigate('/Login');
     }
-  }, [token, navigate]);
+  }, [token]);
 
   const handleEditNameClick = () => {
     setIsEditingUserName(true);
   };
   const firstName = useSelector((state) => state.user.firstName)
 
-  const isLogin = useSelector((state) => state.user.isLogin)
-
+  
 
 
   const newUserName = useSelector((state) => state.user.userName)
@@ -51,7 +51,7 @@ function UserPage() {
         <div className="header">
           <h1>Welcome back<br />{firstName} !</h1>
           {isEditingUserName ? (
-            <EditUserNameForm onSubmit={(newUserName) => dispatch(handleSaveUserName(newUserName, isLogin, token))} />
+            <EditUserNameForm onSubmit={(newUserName) => dispatch(handleSaveUserName(newUserName, token))} />
           ) : (
             <EditButton onClick={handleEditNameClick} />
           )}

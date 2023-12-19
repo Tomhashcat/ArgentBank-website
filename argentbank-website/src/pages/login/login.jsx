@@ -4,32 +4,38 @@ import { useNavigate } from "react-router-dom";
 
 import "./Login.scss";
 
-import { loginUser,isRemember, setIsRememberAction,token } from "../Users/UserSlice";
+import { loginUser, setIsRememberAction } from "../Users/UserSlice";
 import "./Login.scss";
 
+
+  
+  
 export function LoginPage() {
   const navigate= useNavigate();
 const[email, setEmail]= useState('');
 const [password, setPassword] = useState('');
 const {loading, error}=useSelector((state)=>state.user);
-const localToken = useSelector((state) => state.user.token);
-
-
+const [isRemember, setIsRemember] = useState('');
+const [token, setToken]=  useState(getToken());
 const dispatch= useDispatch();
+
 
 
 const handleLoginEvent=(e)=>{
   e.preventDefault();
   let userCredentials= {
-    email, password
+    email, password, isRemember
   }
-  dispatch(loginUser(userCredentials)).then((result)=>{
+
+  dispatch(loginUser(userCredentials, isRemember)).then((result)=>{
    
       console.log('Login result:', result);
       if (result.payload && result.payload.token) {
+
+        
         console.log('Login successful!');
        
-      
+        setToken(result.payload.token); 
         setEmail('');
         setPassword('');
         navigate('/User');
@@ -39,12 +45,28 @@ const handleLoginEvent=(e)=>{
       console.error('Login error:', err);
     });
 };
-const isRemember = useSelector((state) => state.user.isRemember);
-const setIsRemember = (value) => dispatch(setIsRememberAction(value));
 
-useEffect(() => {
-  console.log("isRemember a changé :", isRemember);
-}, [dispatch, isRemember]);
+
+function getToken() {
+  const [isRemember, setIsRemember] = useState('');
+  if (isRemember) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      return navigate("/User");
+    }
+    return token;
+  } else {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      return navigate("/User");
+    }
+    return token;
+  }
+}
+
+
+
+
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">

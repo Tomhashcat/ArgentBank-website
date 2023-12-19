@@ -12,17 +12,24 @@ export const setProfileFirstName = (firstName) => ({
   payload: firstName,
 
 });
-export const setIsRememberAction = createAction('user/setIsRemember');
+
 
 export const loginUser = createAsyncThunk(
   'user/login',
   async (userCredentials, { dispatch }) => {
     try {
+      
       const request = await axios.post('http://localhost:3001/api/v1/user/login', userCredentials);
       const response = request.data.body;
      
-
-
+        console.log('UserCredentials:', userCredentials);
+    
+        if (!isRemember) {
+          sessionStorage.setItem('token', response.token);
+        } else {
+          localStorage.setItem('token', response.token); 
+        }
+     
       dispatch(fetchUserDatas(response.token));
       return response;
     } catch (error) {
@@ -74,18 +81,13 @@ const UserSlice = createSlice({
     loading: false,
     user: null,
     token: '',
-    firstName: '',
-    isRemember: false,
-    userName: '',
-    isLogin: false,
     error: null,
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        state.isRemember = false;
-
+      
         state.token = '';
         state.loading = true;
         state.user = null;
@@ -96,14 +98,13 @@ const UserSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload.token;
-        localStorage.setItem('token', action.payload.token);
-        state.isRemember = true;
-
+      
+       
 
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.isRemember = false;
+       
         state.user = null;
         state.token = '';
         console.log(action.error.message);
@@ -123,8 +124,8 @@ const UserSlice = createSlice({
       })
       .addCase(fetchUserDatas.fulfilled, (state, action) => {
 
-        console.log('New userName:', action.payload.userName);
-        console.log('New firstName:', action.payload.firstName);
+        
+       
         state.userName = action.payload.userName;
         state.firstName = action.payload.firstName;
         state.isLogin = true;
@@ -132,17 +133,7 @@ const UserSlice = createSlice({
         
        console.log('isRemember:', state.isRemember);
 
-        if (state.isRemember) {
-          
-         localStorage.setItem('userName', action.payload.userName);
-          localStorage.setItem('firstName', action.payload.firstName); 
        
-        } else {
-          localStorage.removeItem('userName', action.payload.userName);
-          localStorage.removeItem('firstName', action.payload.firstName); 
-          sessionStorage.setItem('userName', action.payload.userName);
-          sessionStorage.setItem('firstName', action.payload.firstName);
-        }
     
       })
 
@@ -159,10 +150,7 @@ const UserSlice = createSlice({
           state.error = action.error.message;
         }
       })
-      .addCase(setIsRememberAction, (state, action) => {
-        state.isRemember = action.payload;
      
-      });
   },
 });
 
