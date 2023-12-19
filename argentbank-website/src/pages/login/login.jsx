@@ -11,15 +11,15 @@ export function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { loading, error, isRemember,token } = useSelector((state) => state.user);
+  const { loading, error, isRemember, token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     if (token) {
       navigate('/User');
     }
   }, [token, navigate]);
+
   const handleLoginEvent = (e) => {
     e.preventDefault();
 
@@ -32,7 +32,6 @@ export function LoginPage() {
     };
 
     dispatch(loginUser(userCredentials)).then((result) => {
-
       console.log('Login result:', result);
 
       if (result.payload && result.payload.token) {
@@ -40,24 +39,19 @@ export function LoginPage() {
 
         if (isRemember) {
           localStorage.setItem('token', token);
-         
         } else {
           sessionStorage.setItem('token', token);
-         
         }
         navigate('/User');
       }
       console.log('Login successful!');
-     
-
     }).catch((err) => {
       console.error('Login error:', err);
     });
   };
 
-
-
   const handleRememberChange = () => {
+   
     dispatch(setIsRememberAction(!isRemember));
   };
 

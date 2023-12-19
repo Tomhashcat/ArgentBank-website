@@ -12,7 +12,6 @@ export const setProfileFirstName = (firstName) => ({
   payload: firstName,
 
 });
-
 export const setIsRememberAction = createAction('user/setIsRemember');
 
 export const loginUser = createAsyncThunk(
@@ -79,7 +78,7 @@ const UserSlice = createSlice({
     loading: false,
     user: null,
     token: '',
-   
+    isRemember: false, 
     error: null,
   },
 
@@ -90,7 +89,7 @@ const UserSlice = createSlice({
         state.token = '';
         state.loading = true;
         state.user = null;
-        
+        state.isRemember = false;
         state.error = null;
 
       })
@@ -98,14 +97,14 @@ const UserSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload.token;
-      
+        state.isRemember=true;
        
 
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
-       
+        state.loading = false;       
         state.user = null;
+        state.isRemember = false;
         state.token = '';
         console.log(action.error.message);
 
@@ -149,6 +148,10 @@ const UserSlice = createSlice({
           state.error = action.error.message;
         }
       })
+
+      .addCase(setIsRememberAction, (state, action) => {
+        state.isRemember = action.payload;
+      });
      
   },
 });
