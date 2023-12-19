@@ -11,7 +11,7 @@ export const handleSaveUserName = createAsyncThunk(
 
   async (newUserName, { dispatch, getState }) => {
     try {
-      const token = sessionStorage.getItem('token');
+      const token = sessionStorage.getItem('token')|| localStorage.getItem('token');
 
       const response = await axios.put(
         'http://localhost:3001/api/v1/user/profile',
