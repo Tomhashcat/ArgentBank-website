@@ -1,71 +1,65 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import "./Login.scss";
 
 import { loginUser, setIsRememberAction } from "../Users/UserSlice";
-import "./Login.scss";
 
 
-  
-  
 export function LoginPage() {
-  const navigate= useNavigate();
-const[email, setEmail]= useState('');
-const [password, setPassword] = useState('');
-const {loading, error}=useSelector((state)=>state.user);
-const [isRemember, setIsRemember] = useState('');
-const [token, setToken]=  useState(getToken());
-const dispatch= useDispatch();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { loading, error, isRemember,token } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
 
+    if (token) {
+      navigate('/User');
+    }
+  }, [token, navigate]);
+  const handleLoginEvent = (e) => {
+    e.preventDefault();
 
-const handleLoginEvent=(e)=>{
-  e.preventDefault();
-  let userCredentials= {
-    email, password, isRemember
-  }
+    dispatch(setIsRememberAction(isRemember));
 
-  dispatch(loginUser(userCredentials, isRemember)).then((result)=>{
-   
+    let userCredentials = {
+      email,
+      password,
+      isRemember,
+    };
+
+    dispatch(loginUser(userCredentials)).then((result) => {
+
       console.log('Login result:', result);
-      if (result.payload && result.payload.token) {
 
-        
-        console.log('Login successful!');
-       
-        setToken(result.payload.token); 
-        setEmail('');
-        setPassword('');
+      if (result.payload && result.payload.token) {
+        const token = result.payload.token;
+
+        if (isRemember) {
+          localStorage.setItem('token', token);
+         
+        } else {
+          sessionStorage.setItem('token', token);
+         
+        }
         navigate('/User');
       }
-    })
-    .catch((err) => {
+      console.log('Login successful!');
+     
+
+    }).catch((err) => {
       console.error('Login error:', err);
     });
-};
-
-
-function getToken() {
-  const [isRemember, setIsRemember] = useState('');
-  if (isRemember) {
-    const token = localStorage.getItem("token");
-    if (token) {
-      return navigate("/User");
-    }
-    return token;
-  } else {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      return navigate("/User");
-    }
-    return token;
-  }
-}
+  };
 
 
 
+  const handleRememberChange = () => {
+    dispatch(setIsRememberAction(!isRemember));
+  };
 
   return (
     <main className="main bg-dark">
@@ -79,9 +73,8 @@ function getToken() {
               type="text"
               id="email"
               value={email}
-              onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
-              
             />
           </div>
           <div className="input-wrapper">
@@ -90,7 +83,7 @@ function getToken() {
               type="password"
               id="password"
               value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
           </div>
@@ -99,7 +92,7 @@ function getToken() {
               type="checkbox"
               id="remember-me"
               checked={isRemember}
-              onChange={() => setIsRemember(!isRemember)}
+              onChange={handleRememberChange}
             />
             <label htmlFor="remember-me">Remember me</label>
           </div>

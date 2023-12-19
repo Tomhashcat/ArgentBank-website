@@ -13,23 +13,21 @@ export const setProfileFirstName = (firstName) => ({
 
 });
 
+export const setIsRememberAction = createAction('user/setIsRemember');
 
 export const loginUser = createAsyncThunk(
   'user/login',
-  async (userCredentials, { dispatch }) => {
+  async (userCredentials, { dispatch, getState }) => {
     try {
-      
+      const state = getState();
+      const isRemember = state.user.isRemember; 
       const request = await axios.post('http://localhost:3001/api/v1/user/login', userCredentials);
       const response = request.data.body;
      
         console.log('UserCredentials:', userCredentials);
-    
-        if (!isRemember) {
-          sessionStorage.setItem('token', response.token);
-        } else {
-          localStorage.setItem('token', response.token); 
-        }
-     
+        
+
+       
       dispatch(fetchUserDatas(response.token));
       return response;
     } catch (error) {
@@ -81,6 +79,7 @@ const UserSlice = createSlice({
     loading: false,
     user: null,
     token: '',
+   
     error: null,
   },
 
@@ -91,6 +90,7 @@ const UserSlice = createSlice({
         state.token = '';
         state.loading = true;
         state.user = null;
+        
         state.error = null;
 
       })
@@ -131,8 +131,7 @@ const UserSlice = createSlice({
         state.isLogin = true;
         state.error = null;
         
-       console.log('isRemember:', state.isRemember);
-
+      
        
     
       })

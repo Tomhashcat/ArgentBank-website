@@ -27,9 +27,9 @@ function Header() {
   const isRemember = useSelector((state) => state.user.isRemember);
 
   useEffect(() => {
-    // Charger les données de l'utilisateur lorsque le composant est monté
-    dispatch(fetchUserDatas(token));
-  }, [dispatch, token]);
+    if(token){
+      dispatch(fetchUserDatas(token)); 
+  }}, [dispatch, token]);
  
   const handleLogout = () => {
     if(isRemember){
