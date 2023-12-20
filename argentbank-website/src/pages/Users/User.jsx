@@ -10,37 +10,40 @@ import AccountWrap from '../../components/AccountWrapper/AccountWrapper';
 import EditButton from '../../components/button/button';
 import EditUserNameForm from '../../components/form/form';
 
-
-
 function UserPage() {
-
-
+  // Hook to navigate to different pages
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // State to manage the edit user name form visibility
   const [isEditingUserName, setIsEditingUserName] = useState(false);
+
+  // Retrieve the authentication token from Redux state
   const token = useSelector((state) => state.user.token);
+
+  // useEffect to check if the user is authenticated, redirect to login if not
   useEffect(() => {
-    
-    const storedToken  = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const storedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!storedToken) {
       navigate('/Login');
     }
   }, [token, navigate]);
 
+  // Handler function for the "Edit" button to start editing user name
   const handleEditNameClick = () => {
     setIsEditingUserName(true);
   };
 
+  // Select relevant user data from Redux state
   const firstName = useSelector((state) => state.user.firstName)
   const newUserName = useSelector((state) => state.user.userName)
 
-
   return (
-
     <>
-
+      {/* Main content of the User Page */}
       <main className="main bg-dark">
 
+        {/* Header section with user's name and edit button */}
         <div className="header">
           <h1>Welcome back<br />{firstName} !</h1>
           {isEditingUserName ? (
@@ -49,7 +52,8 @@ function UserPage() {
             <EditButton onClick={handleEditNameClick} />
           )}
         </div>
-        
+
+        {/* Section for displaying user accounts */}
         <h2 className="sr-only">Accounts</h2>
         <section className="account">
           <AccountWrap
@@ -73,13 +77,10 @@ function UserPage() {
             buttonText="View transactions"
              />
         </section>
-
-
-
       </main>
-
     </>
   );
 }
 
+// Export the UserPage component as the default export
 export default UserPage;
