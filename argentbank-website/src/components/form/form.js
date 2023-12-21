@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 // Redux thunk to handle saving the user name

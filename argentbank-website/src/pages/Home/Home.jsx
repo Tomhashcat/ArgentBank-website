@@ -4,9 +4,8 @@ import "./Home.scss";
 import iconChat from "../../assets/img/icon-chat.webp";
 import inconMoney from "../../assets/img/icon-money.webp";
 import iconSecurity from "../../assets/img/icon-security.webp";
-import { useDispatch } from 'react-redux';
 import FeatureItem from '../../components/featureItems/FeatureItem';
-import { useNavigate } from 'react-router-dom';
+
 /**
  *
  * @returns {React.ReactElement} JSX.Element - the user main page
@@ -14,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Home(){
-
 
 
  

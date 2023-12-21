@@ -21,7 +21,7 @@ function Header() {
 
   // Retrieve user data from the Redux store using useSelector hook
   const userName = useSelector((state) => state.user.userName);
-  console.log('UserName in Header:', userName);
+ 
 
   // Retrieve authentication token from local storage or session storage
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
